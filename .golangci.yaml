@@ -1,0 +1,16 @@
+linters:
+  enable:
+    - govet
+    - errcheck
+    - gosimple
+    - staticcheck
+    - unused
+    - gocritic
+
+issues:
+  max-issues-per-linter: 0
+  exclude-use-default: false
+
+formatter: "stylish"
+
+linters-settings:
