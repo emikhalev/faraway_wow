@@ -24,3 +24,6 @@ stop-server:
 .PHONY: clean-server
 clean-containers:
 	docker rm server-container
+
+.PHONY: down-server
+down-server: stop-server clean-server

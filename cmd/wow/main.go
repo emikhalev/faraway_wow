@@ -55,7 +55,7 @@ func main() {
 
 	select {
 	case err := <-srv.Err():
-		logger.Errorf(ctx, "HTTP server stopped: %v", err)
+		logger.Errorf(ctx, "WoW server stopped: %v", err)
 	}
 }
 

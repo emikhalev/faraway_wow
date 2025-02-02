@@ -47,15 +47,15 @@ func (srv *Server) Run(ctx context.Context) error {
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
+			logger.Infof(ctx, "error accepting connection: %v", err)
+		}
 
-			select {
-			case <-srv.doneCh:
-				logger.Infof(ctx, "TCP server shutting down...")
-				return nil
-			default:
-				logger.Infof(ctx, "Error accepting connection: %v", err)
-			}
-
+		select {
+		case <-srv.doneCh:
+			logger.Infof(ctx, "TCP server shutting down...")
+			return nil
+		default:
+			logger.Infof(ctx, "accepting connection: %v", err)
 		}
 
 		srv.connectionsWg.Add(1)
@@ -74,9 +74,9 @@ func (srv *Server) Err() <-chan error {
 func (srv *Server) Close() error {
 	var err error
 	srv.doneOnce.Do(func() {
-		err = srv.listener.Close()
 		close(srv.doneCh)
 		srv.connectionsWg.Wait()
+		err = srv.listener.Close()
 		srv.stopErr <- err
 	})
 	return err
