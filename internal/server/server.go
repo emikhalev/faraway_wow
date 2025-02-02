@@ -55,7 +55,7 @@ func (srv *Server) Run(ctx context.Context) error {
 			logger.Infof(ctx, "TCP server shutting down...")
 			return nil
 		default:
-			logger.Infof(ctx, "accepting connection: %v", err)
+			logger.Infof(ctx, "accepting connection")
 		}
 
 		srv.connectionsWg.Add(1)

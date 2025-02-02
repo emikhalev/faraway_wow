@@ -11,7 +11,6 @@ const (
 	difficulty = 20
 )
 
-// Тестируем функцию calcZeros
 func Test_calcZeros(t *testing.T) {
 	tests := []struct {
 		name  string
@@ -51,10 +50,8 @@ func Test_calcZeros(t *testing.T) {
 }
 
 func TestVerify(t *testing.T) {
-	// Пример данных для теста
 	challenge := []byte("test-challenge")
 
-	// Пример успешных решений (реально найденные nonce для сложности)
 	tests := []struct {
 		challenge  []byte
 		difficulty int
@@ -68,7 +65,7 @@ func TestVerify(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(fmt.Sprintf("difficulty=%d,nonce=%d", tt.difficulty, tt.nonce), func(t *testing.T) {
-			result := verify(tt.challenge, tt.nonce, tt.difficulty)
+			result := Verify(tt.challenge, tt.nonce, tt.difficulty)
 			if result != tt.expected {
 				t.Errorf("verify() = %v, want %v", result, tt.expected)
 			}
@@ -77,13 +74,13 @@ func TestVerify(t *testing.T) {
 }
 
 func TestSolve(t *testing.T) {
-	c, err := challenge(32)
+	c, err := Challenge(32)
 	if err != nil {
 		t.Errorf("expecting no error, got %s", err)
 	}
 
-	nonce := solve(c, difficulty)
-	if !verify(c, nonce, difficulty) {
+	nonce := Solve(c, difficulty)
+	if !Verify(c, nonce, difficulty) {
 		t.Errorf("not solved")
 	}
 }

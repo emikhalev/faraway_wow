@@ -31,7 +31,6 @@ PHONY: .install-lint-deps
 lint: .install-lint-deps
 	$(LINTBIN) run -c .golangci.yaml --new-from-rev origin/main
 
-
-
-
-
+.PHONY: test
+test:
+	go test ./...
