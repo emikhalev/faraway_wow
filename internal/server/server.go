@@ -8,6 +8,7 @@ import (
 
 	"github.com/emikhalev/faraway_wow/internal/config"
 	"github.com/emikhalev/faraway_wow/internal/logger"
+	"github.com/emikhalev/faraway_wow/internal/tracer"
 )
 
 type Server struct {
@@ -85,6 +86,9 @@ func (srv *Server) process(conn net.Conn) {
 	defer conn.Close()
 
 	ctx := context.Background()
+	ctx, span := tracer.Tracer().Start(ctx, "handleConnection")
+	defer span.End()
+
 	if srv.handler != nil {
 		if srv.interceptorsChain != nil {
 			if err := srv.interceptorsChain(ctx, conn, srv.handler); err != nil {

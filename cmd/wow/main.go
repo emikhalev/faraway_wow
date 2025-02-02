@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+
 	"strings"
 	"syscall"
 	"time"
@@ -12,6 +13,7 @@ import (
 	"github.com/emikhalev/faraway_wow/internal/logger"
 	"github.com/emikhalev/faraway_wow/internal/server"
 	service "github.com/emikhalev/faraway_wow/internal/service"
+	"github.com/emikhalev/faraway_wow/internal/tracer"
 )
 
 const (
@@ -35,6 +37,11 @@ func main() {
 
 	// init service
 	s := service.New()
+
+	_, err := tracer.SetupTracer()
+	if err != nil {
+		logger.Fatalf(ctx, "cannot init tracer provider")
+	}
 
 	// run TCP server
 	srv := server.New(cfg.Server).

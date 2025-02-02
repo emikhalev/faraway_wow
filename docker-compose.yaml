@@ -1,0 +1,25 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./cmd/wow/Dockerfile
+    ports:
+      - "52345:52345"
+    networks:
+      - wow-network
+
+  client:
+    depends_on:
+      - server
+    links:
+      - server
+    restart: always
+    build:
+      context: .
+      dockerfile: ./cmd/client/Dockerfile
+    networks:
+      - wow-network
+
+networks:
+  wow-network:
+    driver: bridge
